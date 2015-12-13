@@ -1,0 +1,13 @@
+setwd("~/Documents/Learn/Exploratory Data")
+EPCheader<-read.table("household_power_consumption.txt",sep=";",nrow=1, stringsAsFactors = FALSE)
+EPC<-read.table(file="household_power_consumption.txt",header=FALSE,sep=";",na.strings=c("?",""),skip=grep("1/2/2007",readLines("household_power_consumption.txt")),nrows=2880, dec=".")
+colnames(EPC)<-EPCheader #names columns 
+EPC$Date<-as.Date(EPC$Date, format="%d/%m/%Y") #change date variable to date class 
+GA<-as.numeric(EPC$Global_active_power)
+
+#plot 2
+png("plot2.png", width=480,height=480)
+datetime <- paste(EPC$Date, EPC$Time)  
+datetime <- strptime(datetime, format = "%Y-%m-%d %H:%M:%S")  
+plot(datetime,GA,type="l",xlab="",ylab="Global Active Power (kilowatts)")
+dev.off()
